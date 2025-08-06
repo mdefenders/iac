@@ -29,8 +29,8 @@ resource "google_container_node_pool" "primary_nodes" {
   cluster  = google_container_cluster.primary.name
 
   node_config {
-    machine_type = "e2-medium"
-    spot         = true # use spot VMs (GKE >= 1.20+)
+    machine_type = var.machine_type
+    spot         = var.spot
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
@@ -39,8 +39,8 @@ resource "google_container_node_pool" "primary_nodes" {
   initial_node_count = 1
 
   autoscaling {
-    min_node_count = 0
-    max_node_count = 3
+    min_node_count = var.min_node_count
+    max_node_count = var.max_node_count
   }
 }
 
@@ -49,7 +49,7 @@ resource "helm_release" "argocd" {
   namespace        = "argocd"
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
-  version          = "8.2.5"
+  version          = var.argocd_chart_version
   create_namespace = true
   depends_on       = [google_container_cluster.primary]
 }
