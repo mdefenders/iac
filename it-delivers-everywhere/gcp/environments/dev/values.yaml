@@ -1,0 +1,12 @@
+appSets:
+  - name : it-delivers-everywhere-features
+    namespace: argocd
+    githubOrg: mdefenders
+    chartPath: "deploy/charts/app"
+    valueFiles:
+      - ../../environments/dev/values.yaml
+    filters:
+      - branchMatch: "^feature/.*$"
+        pathsExist:
+          - "deploy/charts/app"
+          - "deploy/environments/dev/values.yaml"
