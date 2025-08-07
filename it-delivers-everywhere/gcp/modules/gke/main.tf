@@ -73,3 +73,70 @@ resource "helm_release" "ingress_nginx" {
 
   depends_on = [google_container_cluster.primary]
 }
+
+resource "google_compute_firewall" "deny_ssh_except_trusted" {
+  name    = "deny-ssh-except-trusted"
+  network = "default"
+
+  direction = "INGRESS"
+  priority  = 1000
+
+  deny {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  depends_on = [google_container_cluster.primary]
+
+}
+
+resource "google_compute_firewall" "allow_ssh_trusted" {
+  name    = "allow-ssh-trusted"
+  network = "default"
+
+  direction = "INGRESS"
+  priority  = 900
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+
+  source_ranges = var.ssh_whitelist
+  depends_on = [google_container_cluster.primary]
+
+}
+
+resource "google_compute_firewall" "deny_dev_except_trusted" {
+  name    = "deny-dev-except-trusted"
+  network = "default"
+
+  direction = "INGRESS"
+  priority  = 1000
+
+  deny {
+    protocol = "tcp"
+    ports    = ["80", "443"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  depends_on = [google_container_cluster.primary]
+
+}
+
+resource "google_compute_firewall" "allow_dev_trusted" {
+  name    = "allow-dev-trusted"
+  network = "default"
+
+  direction = "INGRESS"
+  priority  = 900
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "443"]
+  }
+
+  source_ranges = var.dev_whitelist
+  depends_on = [google_container_cluster.primary]
+}

@@ -36,17 +36,35 @@ variable "spot" {
   default     = true
 }
 variable "min_node_count" {
-    description = "Minimum number of nodes in the GKE node pool."
-    type        = number
-    default     = 0
+  description = "Minimum number of nodes in the GKE node pool."
+  type        = number
+  default     = 0
 }
 variable "max_node_count" {
-    description = "Maximum number of nodes in the GKE node pool."
-    type        = number
-    default     = 3
+  description = "Maximum number of nodes in the GKE node pool."
+  type        = number
+  default     = 3
+}
+
+variable "service_whitelist" {
+  description = "List of IPs/subnets allowed to access services/load balancers."
+  type        = list(string)
+  default     = ["0.0.0.0/0"] # Replace with your IPs/subnets
 }
 
 variable "appsets_chart_version" {
   description = "Version of the argo-appsets Helm chart"
   type        = string
+}
+
+variable "ssh_whitelist" {
+  description = "List of IPs/subnets allowed to access ovefr ssh."
+  type        = list(string)
+  default     = ["0.0.0.0/0"] # Replace with your IPs/subnets
+}
+
+variable "dev_whitelist" {
+  description = "List of IPs/subnets allowed to access dev services/load balancers."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
 }

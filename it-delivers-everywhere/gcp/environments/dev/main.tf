@@ -8,6 +8,8 @@ module "gke" {
   spot                 = var.spot
   min_node_count       = var.min_node_count
   max_node_count       = var.max_node_count
+  ssh_whitelist        = var.ssh_whitelist
+  dev_whitelist        = var.dev_whitelist
 }
 resource "helm_release" "appsets" {
   name             = "argo-appsets"

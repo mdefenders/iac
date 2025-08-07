@@ -45,3 +45,15 @@ variable "max_node_count" {
     type        = number
     default     = 3
 }
+
+variable "dev_whitelist" {
+  description = "List of IPs/subnets allowed to access dev services/load balancers."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "ssh_whitelist" {
+  description = "List of IPs/subnets allowed to access services/load balancers."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
