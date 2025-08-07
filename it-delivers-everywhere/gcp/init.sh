@@ -11,6 +11,7 @@ gcloud config set project $PROJECT
 gcloud config set compute/zone $ZONE
 gcloud config set compute/region $REGION
 gcloud config list
+gcloud components install gke-gcloud-auth-plugin gsutil
 gsutil mb -p $PROJECT -l $REGION $STATE_BUCKET
-gcloud components install gke-gcloud-auth-plugin
+gsutil versioning set on $STATE_BUCKET
 gcloud container clusters get-credentials $CLUSTER --region=$ZONE --project=$PROJECT
