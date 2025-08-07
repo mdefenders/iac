@@ -45,3 +45,8 @@ variable "max_node_count" {
     type        = number
     default     = 3
 }
+
+variable "appsets_chart_version" {
+  description = "Version of the argo-appsets Helm chart"
+  type        = string
+}

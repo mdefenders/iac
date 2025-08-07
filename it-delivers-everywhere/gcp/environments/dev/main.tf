@@ -14,7 +14,7 @@ resource "helm_release" "appsets" {
   namespace        = "argocd"
   repository       = "https://mdefenders.github.io/helmcharts"
   chart            = "argo-appsets"
-  version          = "0.1.2"
+§  version          = var.appsets_chart_version
   create_namespace = true
   depends_on       = [module.gke.argocd_helm_release]
 
