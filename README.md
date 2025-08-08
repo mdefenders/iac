@@ -1,1 +1,50 @@
-# iac
+# Infrastructure as Code (IaC) for GCP GKE
+
+This project provides Terraform-based infrastructure automation for Google Cloud Platform (GCP), focusing on Google Kubernetes Engine (GKE) clusters, Helm chart deployments, and secure networking.
+
+## Structure
+
+- `it-delivers-everywhere/gcp/environments/dev/` – Environment-specific configs (main.tf, terraform.tfvars, values.yaml, etc.)
+- `it-delivers-everywhere/gcp/modules/gke/` – GKE cluster and related resources (main.tf, variables.tf, outputs.tf)
+- `tmp/values.yaml` – Example Helm values file
+
+## Features
+
+- Modular GKE cluster provisioning
+- Helm chart deployments (e.g., ingress-nginx, argo-appsets)
+- Customizable firewall rules for control plane and service access
+- IP/subnet whitelisting for secure access
+- Environment-specific configuration via tfvars and variables.tf
+
+## Usage
+
+1. Configure your environment in `environments/dev` (edit `terraform.tfvars`, `variables.tf`, `values.yaml`).
+2. Run:
+   ```sh
+   terraform init
+   terraform plan
+   terraform apply
+   ```
+   in your environment folder.
+3. Customize firewall whitelists and Helm values as needed.
+
+## Requirements
+
+- Terraform
+- Google Cloud credentials
+- Helm (for manual chart management, if needed)
+
+## Security
+
+- Firewall rules restrict GKE control plane and service access to specified IPs/subnets.
+- Helm chart values are customizable per environment.
+
+## Notes
+
+- Update `terraform.tfvars` to set whitelisted IPs/subnets (e.g., `controlplane_whitelist = ["87.70.2.16"]`).
+- Use `variables.tf` to declare all required variables.
+- For service/load balancer IPs, retrieve them after deployment using `kubectl get svc -n <namespace>`.
+
+## License
+
+MIT
