@@ -41,7 +41,7 @@ This project provides Terraform-based infrastructure automation for Google Cloud
 
 ## Notes
 
-- Update `terraform.tfvars` to set whitelisted IPs/subnets (e.g., `controlplane_whitelist = ["87.70.2.16"]`).
+- Update `terraform.tfvars` to set whitelisted IPs/subnets (e.g., `controlplane_whitelist = ["192.168.0.1"]`).
 - Use `variables.tf` to declare all required variables.
 - For service/load balancer IPs, retrieve them after deployment using `kubectl get svc -n <namespace>`.
 
