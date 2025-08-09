@@ -6,3 +6,4 @@ argocd_chart_version  = "8.2.5"
 appsets_chart_version = "0.1.4"
 ssh_whitelist         = ["87.70.2.16/32"]
 dev_whitelist         = ["87.70.2.16/32"]
+public_access_enabled = false

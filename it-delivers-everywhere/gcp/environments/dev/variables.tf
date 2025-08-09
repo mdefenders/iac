@@ -68,3 +68,9 @@ variable "dev_whitelist" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+variable "public_access_enabled" {
+  description = "Enable public access to the cluster workloads ingress."
+  type        = bool
+  default     = false
+}
