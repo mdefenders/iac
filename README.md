@@ -2,6 +2,10 @@
 
 This project provides Terraform-based infrastructure automation for Google Cloud Platform (GCP), focusing on Google Kubernetes Engine (GKE) clusters, Helm chart deployments, and secure networking.
 
+## Feature Branch Isolation (ArgoCD ApplicationSets)
+
+Deployment supports fully automated feature branch isolation by namespaces, implemented with ArgoCD ApplicationSets. Each feature branch is deployed into its own isolated namespace, managed by ArgoCD, enabling parallel development and testing environments.
+
 ## Structure
 
 - `it-delivers-everywhere/gcp/environments/dev/` – Environment-specific configs (main.tf, terraform.tfvars, values.yaml, etc.)
