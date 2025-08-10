@@ -53,7 +53,7 @@ resource "helm_release" "argocd" {
   version          = var.argocd_chart_version
   create_namespace = true
   depends_on       = [google_container_cluster.primary]
-  atomic           = true
+  # atomic           = true
 }
 
 resource "helm_release" "ingress_nginx" {
@@ -74,7 +74,7 @@ resource "helm_release" "ingress_nginx" {
   ]
 
   depends_on = [google_container_cluster.primary]
-  atomic     = true
+  # atomic     = true
 }
 
 resource "helm_release" "gateways" {
@@ -84,7 +84,7 @@ resource "helm_release" "gateways" {
   chart      = "gke-gateways"
   version    = var.gateways_chart_version
   depends_on = [google_container_cluster.primary]
-  atomic     = true
+  # atomic     = true
 }
 
 resource "google_compute_firewall" "deny_ssh_except_trusted" {

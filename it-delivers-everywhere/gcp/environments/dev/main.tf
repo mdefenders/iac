@@ -22,7 +22,7 @@ resource "helm_release" "appsets" {
   create_namespace = true
   depends_on       = [module.gke.argocd_helm_release]
   values           = [file("${path.module}/values.yaml")]
-  atomic           = true
+  # atomic           = true
 }
 
 resource "null_resource" "enable_gateway_api" {
