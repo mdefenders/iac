@@ -1,8 +1,9 @@
 resource "google_project_service" "required_apis" {
   for_each = toset([
-    "container.googleapis.com", # GKE
-    "compute.googleapis.com", # Networking
-    "iam.googleapis.com", # Service accounts
+    "container.googleapis.com",       # GKE
+    "compute.googleapis.com",         # Networking
+    "iam.googleapis.com",             # Service accounts
+    "networkservices.googleapis.com", # Gateways API
   ])
   project = var.project_id
   service = each.value
@@ -51,7 +52,8 @@ resource "helm_release" "argocd" {
   chart            = "argo-cd"
   version          = var.argocd_chart_version
   create_namespace = true
-  depends_on = [google_container_cluster.primary]
+  depends_on       = [google_container_cluster.primary]
+  atomic           = true
 }
 
 resource "helm_release" "ingress_nginx" {
@@ -72,6 +74,17 @@ resource "helm_release" "ingress_nginx" {
   ]
 
   depends_on = [google_container_cluster.primary]
+  atomic     = true
+}
+
+resource "helm_release" "gateways" {
+  name       = "gke-gateways"
+  namespace  = "default"
+  repository = "https://mdefenders.github.io/helmcharts"
+  chart      = "gke-gateways"
+  version    = var.gateways_chart_version
+  depends_on = [google_container_cluster.primary]
+  atomic     = true
 }
 
 resource "google_compute_firewall" "deny_ssh_except_trusted" {
@@ -83,11 +96,11 @@ resource "google_compute_firewall" "deny_ssh_except_trusted" {
 
   deny {
     protocol = "tcp"
-    ports = ["22"]
+    ports    = ["22"]
   }
 
   source_ranges = ["0.0.0.0/0"]
-  depends_on = [google_container_cluster.primary]
+  depends_on    = [google_container_cluster.primary]
 
 }
 
@@ -100,11 +113,11 @@ resource "google_compute_firewall" "allow_ssh_trusted" {
 
   allow {
     protocol = "tcp"
-    ports = ["22"]
+    ports    = ["22"]
   }
 
   source_ranges = var.ssh_whitelist
-  depends_on = [google_container_cluster.primary]
+  depends_on    = [google_container_cluster.primary]
 
 }
 
@@ -117,12 +130,12 @@ resource "google_compute_firewall" "deny_dev_except_trusted" {
 
   deny {
     protocol = "tcp"
-    ports = ["80", "443"]
+    ports    = ["80", "443"]
   }
 
   source_ranges = ["0.0.0.0/0"]
-  depends_on = [google_container_cluster.primary]
-  disabled = var.public_access_enabled
+  depends_on    = [google_container_cluster.primary]
+  disabled      = var.public_access_enabled
 
 }
 
@@ -135,9 +148,9 @@ resource "google_compute_firewall" "allow_dev_trusted" {
 
   allow {
     protocol = "tcp"
-    ports = ["80", "443"]
+    ports    = ["80", "443"]
   }
 
   source_ranges = var.dev_whitelist
-  depends_on = [google_container_cluster.primary]
+  depends_on    = [google_container_cluster.primary]
 }

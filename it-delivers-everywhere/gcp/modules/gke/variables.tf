@@ -63,3 +63,7 @@ variable "public_access_enabled" {
   type        = bool
   default     = false
 }
+variable "gateways_chart_version" {
+  description = "The Helm release for ArgoCD."
+  type        = string
+}
