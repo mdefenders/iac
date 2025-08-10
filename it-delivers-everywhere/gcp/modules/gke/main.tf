@@ -22,6 +22,8 @@ resource "google_container_cluster" "primary" {
     update = "40m"
     delete = "20m"
   }
+  depends_on       = [google_project_service.required_apis]
+  deletion_protection = false
 }
 
 resource "google_container_node_pool" "primary_nodes" {
@@ -43,6 +45,8 @@ resource "google_container_node_pool" "primary_nodes" {
     min_node_count = var.min_node_count
     max_node_count = var.max_node_count
   }
+  depends_on = [google_container_cluster.primary]
+
 }
 
 resource "helm_release" "argocd" {
