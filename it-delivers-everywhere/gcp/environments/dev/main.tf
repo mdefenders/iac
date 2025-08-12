@@ -1,16 +1,17 @@
 module "gke" {
-  source                = "../../modules/gke"
-  project_id            = var.project_id
-  region                = var.region
-  zone                  = var.zone
-  cluster_name          = var.cluster_name
-  argocd_chart_version  = var.argocd_chart_version
-  spot                  = var.spot
-  min_node_count        = var.min_node_count
-  max_node_count        = var.max_node_count
-  ssh_whitelist         = var.ssh_whitelist
-  dev_whitelist         = var.dev_whitelist
-  public_access_enabled = var.public_access_enabled
+  source                 = "../../modules/gke"
+  project_id             = var.project_id
+  region                 = var.region
+  zone                   = var.zone
+  cluster_name           = var.cluster_name
+  argocd_chart_version   = var.argocd_chart_version
+  spot                   = var.spot
+  min_node_count         = var.min_node_count
+  max_node_count         = var.max_node_count
+  ssh_whitelist          = var.ssh_whitelist
+  dev_whitelist          = var.dev_whitelist
+  public_access_enabled  = var.public_access_enabled
+  gateways_chart_version = var.gateways_chart_version
 }
 resource "helm_release" "appsets" {
   name             = "argo-appsets"
@@ -19,6 +20,7 @@ resource "helm_release" "appsets" {
   chart            = "argo-appsets"
   version          = var.appsets_chart_version
   create_namespace = true
-  depends_on = [module.gke.argocd_helm_release]
-  values = [file("${path.module}/values.yaml")]
+  depends_on       = [module.gke.argocd_helm_release]
+  values           = [file("${path.module}/values.yaml")]
+  atomic           = true
 }
