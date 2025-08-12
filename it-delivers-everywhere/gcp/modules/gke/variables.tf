@@ -36,14 +36,14 @@ variable "spot" {
 }
 
 variable "min_node_count" {
-    description = "Minimum number of nodes in the GKE node pool."
-    type        = number
-    default     = 0
+  description = "Minimum number of nodes in the GKE node pool."
+  type        = number
+  default     = 0
 }
 variable "max_node_count" {
-    description = "Maximum number of nodes in the GKE node pool."
-    type        = number
-    default     = 3
+  description = "Maximum number of nodes in the GKE node pool."
+  type        = number
+  default     = 3
 }
 
 variable "dev_whitelist" {
@@ -66,4 +66,28 @@ variable "public_access_enabled" {
 variable "gateways_chart_version" {
   description = "The Helm release for ArgoCD."
   type        = string
+}
+
+variable "gw_project_id" {
+  description = "Project reference name for gateways."
+  type        = string
+  default     = "gke-gateways"
+}
+
+variable "network_tier" {
+  description = "Network tier for GKE cluster (STANDARD or PREMIUM)"
+  type        = string
+  default     = "STANDARD"
+}
+
+variable "gw_class" {
+  description = "Gateway class for GKE gateways."
+  type        = string
+  default     = "gke-l7-regional-external-managed"
+}
+
+variable "proxy_subnet_cidr" {
+    description = "CIDR for the proxy subnet."
+    type        = string
+    default     = "10.1.1.0/24"
 }

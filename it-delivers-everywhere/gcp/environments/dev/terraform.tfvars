@@ -7,4 +7,4 @@ appsets_chart_version  = "0.1.4"
 ssh_whitelist          = ["87.70.2.16/32"]
 dev_whitelist          = ["87.70.2.16/32"]
 public_access_enabled  = false
-gateways_chart_version = "0.0.2"
+gateways_chart_version = "0.0.3"

@@ -1,12 +1,18 @@
+resource "google_compute_project_default_network_tier" "default" {
+  network_tier = var.network_tier
+}
+
 resource "google_project_service" "required_apis" {
   for_each = toset([
-    "container.googleapis.com",       # GKE
-    "compute.googleapis.com",         # Networking
-    "iam.googleapis.com",             # Service accounts
-    "networkservices.googleapis.com", # Gateways API
+    "container.googleapis.com",
+    "compute.googleapis.com",
+    "iam.googleapis.com",
+    "networkservices.googleapis.com",
   ])
-  project = var.project_id
-  service = each.value
+  project    = var.project_id
+  service    = each.value
+  depends_on = [google_compute_project_default_network_tier.default]
+
 }
 
 resource "google_container_cluster" "primary" {
@@ -22,11 +28,16 @@ resource "google_container_cluster" "primary" {
     update = "40m"
     delete = "20m"
   }
-  depends_on       = [google_project_service.required_apis]
+  depends_on          = [google_project_service.required_apis]
   deletion_protection = false
 }
 
 resource "google_container_node_pool" "primary_nodes" {
+  timeouts {
+    create = "30m"
+    update = "40m"
+    delete = "20m"
+  }
   name     = "primary-node-pool"
   location = var.zone
   cluster  = google_container_cluster.primary.name
@@ -57,28 +68,8 @@ resource "helm_release" "argocd" {
   version          = var.argocd_chart_version
   create_namespace = true
   depends_on       = [google_container_cluster.primary]
-  # atomic           = true
-}
-
-resource "helm_release" "ingress_nginx" {
-  name             = "ingress-nginx"
-  namespace        = "ingress-nginx"
-  repository       = "https://kubernetes.github.io/ingress-nginx"
-  chart            = "ingress-nginx"
-  create_namespace = true
-  set = [
-    {
-      name  = "controller.scope.enabled"
-      value = "false"
-    },
-    {
-      name  = "controller.service.externalTrafficPolicy"
-      value = "Local"
-    }
-  ]
-
-  depends_on = [google_container_cluster.primary]
-  # atomic     = true
+  atomic           = true
+  timeout          = 600
 }
 
 resource "helm_release" "gateways" {
@@ -87,8 +78,15 @@ resource "helm_release" "gateways" {
   repository = "https://mdefenders.github.io/helmcharts"
   chart      = "gke-gateways"
   version    = var.gateways_chart_version
-  depends_on = [google_container_cluster.primary]
-  # atomic     = true
+  depends_on = [null_resource.enable_gateway_api]
+  atomic     = true
+  timeout    = 600
+  values = [
+    yamlencode({
+      project          = var.gw_project_id
+      gatewayClassName = var.gw_class
+    })
+  ]
 }
 
 resource "google_compute_firewall" "deny_ssh_except_trusted" {
@@ -156,5 +154,27 @@ resource "google_compute_firewall" "allow_dev_trusted" {
   }
 
   source_ranges = var.dev_whitelist
+  depends_on    = [google_container_cluster.primary]
+}
+
+resource "null_resource" "enable_gateway_api" {
+  depends_on = [google_container_cluster.primary]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      gcloud container clusters update ${var.cluster_name} \
+        --zone=${var.zone} \
+        --gateway-api=standard
+    EOT
+  }
+}
+
+resource "google_compute_subnetwork" "regional_managed_proxy" {
+  name          = "gateway-subnet"
+  region        = var.region
+  network       = "default"
+  ip_cidr_range = var.proxy_subnet_cidr
+  purpose       = "REGIONAL_MANAGED_PROXY"
+  role          = "ACTIVE"
   depends_on    = [google_container_cluster.primary]
 }
