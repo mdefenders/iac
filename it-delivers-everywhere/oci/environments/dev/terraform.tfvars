@@ -1,0 +1,8 @@
+tenancy_ocid          = "ocid1.tenancy.oc1..aaaaaaaab7gvagdtkiayq4tp6vzgm2npi2kqco4x4vaaxll6bapbhig354sa"
+user_ocid             = "ocid1.user.oc1..aaaaaaaaalwx4pm7smbvxbpaqc4vybbx3it3cx3dd4anuepvdakiwtrplehq"
+fingerprint           = "ca:78:5c:64:92:a1:7f:e8:f1:5f:3c:e1:55:63:84:48"
+private_key_path      = "~/.oci/oci_api_key.pem"
+region                = "il-jerusalem-1"
+vcn_display_name      = "oke-vcn"
+node_image_ocid       = "ocid1.image.oc1.il-jerusalem-1.aaaaaaaat2z3mk4hkage2diewmoz7s23muqllbszw4peqblkd7t2mqnhmufq"
+appsets_chart_version = "0.1.4"
