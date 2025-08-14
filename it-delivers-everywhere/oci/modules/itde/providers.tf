@@ -23,3 +23,4 @@ provider "helm" {
     cluster_ca_certificate = base64decode(yamldecode(data.oci_containerengine_cluster_kube_config.kubeconfig.content)["clusters"][0]["cluster"]["certificate-authority-data"])
   }
 }
+

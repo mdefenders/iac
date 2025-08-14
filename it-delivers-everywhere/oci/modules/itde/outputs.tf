@@ -102,3 +102,7 @@ output "node-size" {
 output "node-shape" {
   value = oci_containerengine_node_pool.oke-node-pool.node_shape
 }
+
+output "argocd_helm_release" {
+  value = helm_release.argocd
+}

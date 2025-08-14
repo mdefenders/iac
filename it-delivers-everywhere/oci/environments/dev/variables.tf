@@ -33,3 +33,7 @@ variable "argocd_chart_version" {
   type        = string
   default     = "8.2.5"
 }
+variable "appsets_chart_version" {
+  description = "Version of the argo-appsets Helm chart"
+  type        = string
+}
