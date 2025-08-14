@@ -54,8 +54,6 @@ resource "oci_core_security_list" "public-security-list" {
       type = 3
     }
   }
-
-
 }
 
 

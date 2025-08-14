@@ -54,6 +54,10 @@ resource "oci_core_security_list" "private-security-list" {
     }
   }
 
+  ingress_security_rules {
+    stateless   = false
+    source      = "10.0.0.0/16"
+    source_type = "CIDR_BLOCK"
+    protocol    = "17" # UDP
+  }
 }
-
-
