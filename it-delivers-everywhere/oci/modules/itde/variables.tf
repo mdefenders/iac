@@ -112,3 +112,7 @@ variable "node_image_ocid" {
   description = "Kubernetes Node Image OCID"
   type        = string
 }
+variable "argocd_chart_version" {
+  description = "The Helm release for ArgoCD."
+  type        = string
+}
