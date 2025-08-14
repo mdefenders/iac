@@ -54,6 +54,89 @@ resource "oci_core_security_list" "public-security-list" {
       type = 3
     }
   }
+  egress_security_rules {
+    destination      = "0.0.0.0/0"
+    destination_type = "CIDR_BLOCK"
+    protocol         = "all"
+    stateless        = false
+  }
+  egress_security_rules {
+    destination      = "10.0.1.0/24"
+    destination_type = "CIDR_BLOCK"
+    protocol         = "6"
+    stateless        = false
+
+    tcp_options {
+      max = 30233
+      min = 30233
+    }
+  }
+  egress_security_rules {
+    destination      = "10.0.1.0/24"
+    destination_type = "CIDR_BLOCK"
+    protocol         = "6"
+    stateless        = false
+
+    tcp_options {
+      max = 30277
+      min = 30277
+    }
+  }
+  egress_security_rules {
+    destination      = "10.0.1.0/24"
+    destination_type = "CIDR_BLOCK"
+    protocol         = "6"
+    stateless        = false
+
+    tcp_options {
+      max = 31793
+      min = 31793
+    }
+  }
+  ingress_security_rules {
+    protocol    = "1"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    icmp_options {
+      code = 4
+      type = 3
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 22
+      min = 22
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 443
+      min = 443
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 80
+      min = 80
+    }
+  }
 }
 
 

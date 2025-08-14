@@ -60,4 +60,67 @@ resource "oci_core_security_list" "private-security-list" {
     source_type = "CIDR_BLOCK"
     protocol    = "17" # UDP
   }
+
+  ingress_security_rules {
+    protocol    = "1"
+    source      = "0.0.0.0/0"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    icmp_options {
+      code = 4
+      type = 3
+    }
+  }
+  ingress_security_rules {
+    protocol    = "17"
+    source      = "10.0.0.0/16"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "10.0.0.0/16"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 22
+      min = 22
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "10.0.0.0/24"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 30233
+      min = 30233
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "10.0.0.0/24"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 30277
+      min = 30277
+    }
+  }
+  ingress_security_rules {
+    protocol    = "6"
+    source      = "10.0.0.0/24"
+    source_type = "CIDR_BLOCK"
+    stateless   = false
+
+    tcp_options {
+      max = 31793
+      min = 31793
+    }
+  }
 }
