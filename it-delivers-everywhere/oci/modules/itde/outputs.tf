@@ -106,3 +106,17 @@ output "node-shape" {
 output "argocd_helm_release" {
   value = helm_release.argocd
 }
+
+output "host" {
+  value = yamldecode(data.oci_containerengine_cluster_kube_config.kubeconfig.content)["clusters"][0]["cluster"]["server"]
+}
+
+output "token" {
+  description = "Kubernetes API token for OKE cluster, safe for use in helm provider."
+  value       = data.external.oke_token.result["token"]
+  sensitive   = true
+}
+
+output "cluster_ca_certificate" {
+  value = base64decode(yamldecode(data.oci_containerengine_cluster_kube_config.kubeconfig.content)["clusters"][0]["cluster"]["certificate-authority-data"])
+}
