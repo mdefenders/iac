@@ -10,5 +10,9 @@ terraform {
       source  = "oracle/oci"
       version = ">=7.4.0"
     }
+    local = {
+      source  = "hashicorp/local"
+      version = "~> 2.0"
+    }
   }
 }
