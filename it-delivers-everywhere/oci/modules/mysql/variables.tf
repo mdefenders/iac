@@ -11,7 +11,7 @@ variable "compartment_id" {
 variable "mysql_shape_name" {
   description = "The shape of the MySQL DB system"
   type        = string
-  default     = "MySQL.Free"
+  default     = "MySQL.2"
 }
 variable "subnet_id" {
   description = "The OCID of the subnet where the MySQL DB system will be created"
