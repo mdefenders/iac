@@ -18,7 +18,12 @@ resource "helm_release" "appsets" {
   chart            = "argo-appsets"
   version          = var.appsets_chart_version
   create_namespace = true
-  depends_on       = [module.itde.argocd_helm_release]
-  values           = [file("${path.module}/values.yaml")]
+  depends_on = [module.itde.argocd_helm_release]
+  values = [file("${path.module}/values.yaml")]
   atomic           = true
+}
+
+module "mysql" {
+  source                              = "../../modules/mysql"
+  mysql_db_system_availability_domain = "qqq"
 }
