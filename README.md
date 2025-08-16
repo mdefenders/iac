@@ -61,13 +61,19 @@ MIT
 
 - [ ] Add project creation
 
-## OCI OKE Challenges and Weaknesses
+## OCI OKE Deployment Weaknesses and Challenges
+
+Known but hasn't been addressed yet:
 
 - **Control plane exposure** – By default, the provider creates a basic cluster with the control plane exposed to the
-  internet. For simplicity, this has not yet been restricted (e.g., via VPN).
+  internet. For simplicity, this has not yet been restricted by moving or re-creating the cluster.
 - **Ingress-related firewall rules** – Creating an ingress automatically generates firewall rules, which then need to be
-  imported back into the configuration.
-- **Ingress controller limitations** – The native ingress controller is unavailable in the standard cluster, so NGINX is
-  used instead.
-- **Object separation** - As MySQL and vault secrets were crated on the top level, tenant wide secret permissions were
-  granted to OKE nodes
+  manually imported back into the configuration.
+- **Ingress controller limitations** – The native ingress controller is not available in the standard cluster, so the
+  NGINX ingress controller is used instead.
+- **Object separation** – MySQL and Vault secrets were initially created in the top-level compartment, which resulted in
+  tenant-wide secret permissions being granted to OKE nodes. In a production setup, it is recommended to create a
+  separate compartment for each object type to enable fine-grained access control.
+- **MySQL module** – The current module combines Vault, Secrets, and Policies. These should be separated into a dedicated
+  modules.
+
