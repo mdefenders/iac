@@ -106,7 +106,7 @@ output "mysql_access_mode" {
   value = module.mysql.access_mode
 }
 output "mysql_admin_username" {
-  value = module.mysql.admin_username
+  value     = module.mysql.admin_username
   sensitive = true
 }
 output "mysql_data_storage_size_in_gb" {
@@ -135,4 +135,10 @@ output "mysql_port" {
 }
 output "mysql_data_storage" {
   value = module.mysql.data_storage
+}
+output "mysql_vault_ocid" {
+  value = module.mysql.vault_ocid
+}
+output "mysql_secret_ocid" {
+  value = module.mysql.secret_ocid
 }
