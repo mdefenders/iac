@@ -1,4 +1,4 @@
-# Infrastructure as Code (IaC) for GCP GKE
+# Infrastructure as Code (IaC) for GCP GKE and OCI OKE
 
 This project provides Terraform-based infrastructure automation for Google Cloud Platform (GCP), focusing on Google
 Kubernetes Engine (GKE) clusters, Helm chart deployments, and secure networking.
