@@ -63,11 +63,11 @@ MIT
 
 ## OCI OKE Challenges and Weaknesses
 
-- **DNS resolution issues** – Does not work out of the box due to stateless firewall-like behavior; fixed by allowing
-  UDP traffic for `10.0.0.0/16`.
 - **Control plane exposure** – By default, the provider creates a basic cluster with the control plane exposed to the
   internet. For simplicity, this has not yet been restricted (e.g., via VPN).
 - **Ingress-related firewall rules** – Creating an ingress automatically generates firewall rules, which then need to be
   imported back into the configuration.
 - **Ingress controller limitations** – The native ingress controller is unavailable in the standard cluster, so NGINX is
   used instead.
+- **Object separation** - As MySQL and vault secrets were crated on the top level, tenant wide secret permissions were
+  granted to OKE nodes
