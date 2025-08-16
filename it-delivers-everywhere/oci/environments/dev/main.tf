@@ -22,3 +22,11 @@ resource "helm_release" "appsets" {
   values           = [file("${path.module}/values.yaml")]
   atomic           = true
 }
+
+module "mysql" {
+  source                                  = "../../modules/mysql"
+  mysql_db_system_availability_domain     = var.mysql_db_system_availability_domain
+  compartment_id                          = var.tenancy_ocid
+  subnet_id                               = module.itde.private-subnet-OCID
+  mysql_db_system_customer_contacts_email = var.mysql_db_system_customer_contacts_email
+}
