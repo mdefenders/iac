@@ -41,4 +41,22 @@ resource "helm_release" "secrets_store_csi_driver" {
   depends_on       = [oci_containerengine_cluster.oke-cluster]
   atomic           = true
   timeout          = 600
+  set = [
+    {
+      name  = "secrets-store-csi-driver.install"
+      value = "false"
+    }
+  ]
 }
+
+resource "helm_release" "secrets_store_csi" {
+  name             = "secrets-store-csi"
+  namespace        = "kube-system"
+  repository       = "https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts"
+  chart            = "secrets-store-csi-driver"
+  version          = var.csi_chart_version
+  depends_on       = [oci_containerengine_cluster.oke-cluster]
+  atomic           = true
+  timeout          = 600
+}
+

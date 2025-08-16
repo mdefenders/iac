@@ -26,3 +26,18 @@ resource "oci_vault_secret" "itde_secret" {
   description = "Database password"
 }
 
+resource "oci_identity_dynamic_group" "oke_nodes_dynamic_group" {
+  compartment_id = var.compartment_id
+  name           = var.dynamic_group_name
+  description    = "Dynamic group for OKE worker nodes to access Vault secrets"
+  matching_rule  = "ALL {instance.compartment.id = '${var.cluster_id}'}"
+}
+
+resource "oci_identity_policy" "oke_instance_policy" {
+  compartment_id = var.compartment_id
+  name           = "OKE-InstancePrincipal-ReadVault"
+  description    = "Allow OKE nodes to read secrets from Vault"
+  statements     = [
+    "Allow dynamic-group 'Default'/'${var.dynamic_group_name}' to use secret-family in tenancy"
+  ]
+}

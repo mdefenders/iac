@@ -9,6 +9,7 @@ module "itde" {
   node_image_ocid          = var.node_image_ocid
   argocd_chart_version     = var.argocd_chart_version
   csi_driver_chart_version = var.csi_driver_chart_version
+  csi_chart_version        = var.csi_chart_version
 }
 
 
@@ -30,4 +31,5 @@ module "mysql" {
   compartment_id                          = var.tenancy_ocid
   subnet_id                               = module.itde.private-subnet-OCID
   mysql_db_system_customer_contacts_email = var.mysql_db_system_customer_contacts_email
+  cluster_id                              = module.itde.cluster-OCID
 }

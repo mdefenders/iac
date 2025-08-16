@@ -120,3 +120,7 @@ variable "csi_driver_chart_version" {
   description = "CSI Driver Chat Version"
   type        = string
 }
+variable "csi_chart_version" {
+  description = "CSI Driver Chat Version"
+  type        = string
+}

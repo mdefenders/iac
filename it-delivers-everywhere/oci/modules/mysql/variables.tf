@@ -60,3 +60,13 @@ variable "mysql_db_system_admin_username" {
   sensitive   = true
   default     = "admin"
 }
+variable "cluster_id" {
+  description = "The OCID of the Kubernetes cluster"
+  type        = string
+}
+
+variable "dynamic_group_name" {
+    description = "The name of the dynamic group for OKE nodes"
+    type        = string
+    default     = "OKE-Nodes-DynamicGroup"
+}
