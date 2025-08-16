@@ -116,3 +116,7 @@ variable "argocd_chart_version" {
   description = "The Helm release for ArgoCD."
   type        = string
 }
+variable "csi_driver_chart_version" {
+  description = "CSI Driver Chat Version"
+  type        = string
+}

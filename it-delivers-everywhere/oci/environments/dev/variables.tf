@@ -45,3 +45,7 @@ variable "mysql_db_system_customer_contacts_email" {
   description = "Email for customer contacts"
   type        = string
 }
+variable "csi_driver_chart_version" {
+  description = "CSI Driver Chat Version"
+  type        = string
+}

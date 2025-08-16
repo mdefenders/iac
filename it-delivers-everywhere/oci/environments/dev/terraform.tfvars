@@ -8,3 +8,4 @@ node_image_ocid                         = "ocid1.image.oc1.il-jerusalem-1.aaaaaa
 appsets_chart_version                   = "0.1.4"
 mysql_db_system_availability_domain     = "kXeY:IL-JERUSALEM-1-AD-1"
 mysql_db_system_customer_contacts_email = "aditor@gmail.com"
+csi_driver_chart_version                = "0.4.1"
