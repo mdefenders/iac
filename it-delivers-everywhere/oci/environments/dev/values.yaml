@@ -3,8 +3,11 @@ appSets:
     namespace: argocd
     githubOrg: mdefenders
     chartPath: "deploy/charts/app"
+    chartRepo: https://mdefenders.github.io/helmcharts
+    chartName: service-template
+    chartVersion: 0.1.*
     valueFiles:
-      - ../../environments/dev/values.yaml
+      - $values/deploy/environments/dev/values.yaml
     filters:
       - branchMatch: "^feature/.*$"
         repositoryMatch: "^.*-gitops$"
