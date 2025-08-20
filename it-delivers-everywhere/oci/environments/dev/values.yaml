@@ -7,6 +7,6 @@ appSets:
       - ../../environments/dev/values.yaml
     filters:
       - branchMatch: "^feature/.*$"
+        repositoryMatch: "^.*-gitops$"
         pathsExist:
-          - "deploy/charts/app"
           - "deploy/environments/dev/values.yaml"
